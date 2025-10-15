@@ -1,2 +1,0 @@
-# jacha-pizza
-Crossmedia
