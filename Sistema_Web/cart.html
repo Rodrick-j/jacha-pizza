@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jacha Pizza - Carrito</title>
+  <script>
+    window.tailwind = { config: { theme: { extend: { colors: { primary: {50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a'} } } } } };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- Site background video -->
+  <div class="site-bg" aria-hidden="true">
+    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1600&q=80" alt="Fondo pizzas (cheese pull)" />
+    <div class="site-overlay"></div>
+  </div>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-indigo-900 to-indigo-800 text-white">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=80&auto=format&fit=crop" alt="Logo" class="w-12 h-12 rounded-full object-cover ring-2 ring-white/20" />
+        <h1 id="i18n-brand" class="text-2xl font-bold tracking-wide text-white">Jacha Pizza</h1>
+      </div>
+      <nav class="hidden md:flex items-center gap-3 font-semibold text-lg">
+        <a href="index.html" class="sparkle-button"><span class="text">Inicio</span></a>
+        <a id="i18n-nav-catalogo" href="catalog.html" class="sparkle-button"><span class="text">Catálogo</span></a>
+        <a id="i18n-nav-carrito" href="cart.html" class="sparkle-button flex items-center">
+          <i class="fa-solid fa-cart-shopping mr-2 text-white"></i>
+          <span class="text">Carrito</span>
+          <span id="cart-count" class="ml-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">0</span>
+        </a>
+        <a id="i18n-nav-contacto" href="contact.html" class="sparkle-button flex items-center">
+          <i class="fa-solid fa-envelope mr-2 text-white"></i>
+          <span class="text">Contacto</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-globe text-white"></i>
+          <select id="lang-select" class="bg-white/10 text-white px-2 py-1 rounded border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/40">
+            <option value="es">ES</option>
+            <option value="en">EN</option>
+          </select>
+        </div>
+      </nav>
+      <button id="menu-btn" class="md:hidden focus:outline-none focus:ring-2 focus:ring-white" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars text-2xl"></i>
+      </button>
+    </div>
+    <nav id="mobile-menu" class="hidden md:hidden bg-primary-800 text-white px-4 py-3 space-y-2">
+      <a href="index.html" class="block text-white hover:bg-white/10 rounded px-2 py-1">Inicio</a>
+      <a href="catalog.html" class="block text-white hover:bg-white/10 rounded px-2 py-1">Catálogo</a>
+      <a href="cart.html" class="block text-white rounded px-2 py-1 flex items-center"><i class="fa-solid fa-cart-shopping mr-2 text-white"></i>Carrito <span id="cart-count-mobile" class="ml-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">0</span></a>
+      <a href="contact.html" class="block text-white hover:bg-white/10 rounded px-2 py-1 flex items-center"><i class="fa-solid fa-envelope mr-2 text-white"></i>Contacto</a>
+      <div class="pt-2">
+        <label for="lang-select-mobile" class="text-sm text-white mr-2">Idioma</label>
+        <select id="lang-select-mobile" class="w-24 bg-white/10 text-white px-2 py-1 rounded border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/40">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-10">
+    <section id="carrito" class="section section-cart panel p-6 max-w-5xl mx-auto">
+      <h2 id="i18n-cart-title" class="font-display text-4xl font-extrabold text-gradient-cool text-center mb-6">Carrito de Compras</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="row-accent">
+              <th id="i18n-th-producto" class="py-3 px-4 border border-primary-200">Producto</th>
+              <th id="i18n-th-cantidad" class="py-3 px-4 border border-primary-200">Cantidad</th>
+              <th id="i18n-th-precio" class="py-3 px-4 border border-primary-200">Precio Unitario</th>
+              <th id="i18n-th-subtotal" class="py-3 px-4 border border-primary-200">Subtotal</th>
+              <th id="i18n-th-acciones" class="py-3 px-4 border border-primary-200">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items" class="divide-y divide-primary-200">
+            <tr>
+              <td id="i18n-cart-empty" colspan="5" class="text-center py-6 text-gray-500">No hay productos en el carrito.</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="row-accent font-semibold text-lg">
+              <td id="i18n-total-label" colspan="3" class="py-3 px-4 border border-primary-200 text-right">Total:</td>
+              <td id="cart-total" class="py-3 px-4 border border-primary-200">Bs. 0.00</td>
+              <td class="py-3 px-4 border border-primary-200"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="mt-6 flex justify-end gap-3">
+        <button id="clear-cart" class="px-5 py-2 rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-50" disabled>
+          <span id="i18n-clear-cart">Vaciar Carrito</span>
+        </button>
+        <button id="checkout" class="px-5 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50" disabled>
+          <span id="i18n-checkout">Finalizar Compra</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-primary-900 text-white text-center py-6 mt-14">
+    <p class="text-primary-200">© 2025 Jacha Pizza. Todos los derechos reservados.</p>
+  </footer>
+  <div id="toast-container"></div>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

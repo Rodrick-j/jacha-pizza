@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elegir Tamaños - Jacha Pizza</title>
+  <script>
+    window.tailwind = { config: { theme: { extend: { colors: { primary: {50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a'} } } } } };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- Header indigo -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-indigo-900 to-indigo-800 text-white">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=80&auto=format&fit=crop" alt="Logo" class="w-12 h-12 rounded-full object-cover ring-2 ring-white/20" />
+        <h1 class="text-2xl font-bold tracking-wide">Jacha Pizza</h1>
+      </div>
+      <nav class="hidden md:flex items-center gap-7 font-semibold text-lg">
+        <a href="index.html" class="text-white hover:text-white transition">Inicio</a>
+        <a href="catalog.html" class="text-white hover:text-white transition">Catálogo</a>
+        <a href="cart.html" class="text-white hover:text-white transition flex items-center"><i class="fa-solid fa-cart-shopping mr-2 text-white"></i>Carrito <span id="cart-count" class="ml-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">0</span></a>
+      </nav>
+      <button id="menu-btn" class="md:hidden focus:outline-none focus:ring-2 focus:ring-white" aria-label="Abrir menú"><i class="fa-solid fa-bars text-2xl"></i></button>
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-10">
+    <section class="panel p-6 max-w-2xl mx-auto reveal-up">
+      <h2 class="font-display text-3xl font-extrabold text-gradient-cool mb-4">Elegir Tamaño</h2>
+      <p id="pizza-name" class="text-gray-700 mb-4">Cargando...</p>
+
+      <div class="space-y-3">
+        <label class="flex items-center justify-between p-3 rounded border border-primary-200 bg-white/70">
+          <span>
+            <span class="font-semibold">Individual</span>
+            <span class="block text-sm text-gray-600">1 porción</span>
+          </span>
+          <input type="radio" name="tam" value="Individual" data-extra="0" checked>
+        </label>
+        <label class="flex items-center justify-between p-3 rounded border border-primary-200 bg-white/70">
+          <span>
+            <span class="font-semibold">Grande</span>
+            <span class="block text-sm text-gray-600">8 porciones</span>
+          </span>
+          <input type="radio" name="tam" value="Grande" data-extra="20">
+        </label>
+        <label class="flex items-center justify-between p-3 rounded border border-primary-200 bg-white/70">
+          <span>
+            <span class="font-semibold">Familiar</span>
+            <span class="block text-sm text-gray-600">12 porciones</span>
+          </span>
+          <input type="radio" name="tam" value="Familiar" data-extra="40">
+        </label>
+      </div>
+
+      <div class="mt-6 flex items-center justify-between">
+        <div>
+          <span class="text-gray-600">Precio base:</span>
+          <span id="precio-base" class="font-semibold">Bs. 0.00</span>
+          <span class="ml-4 text-gray-600">Total:</span>
+          <span id="precio-total" class="font-bold accent-text">Bs. 0.00</span>
+        </div>
+        <button id="agregar-btn" class="btn-accent px-5 py-2 rounded add-to-cart" data-id="" data-name="" data-price="0">Añadir al carrito</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast-container"></div>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      const pizza = (window.PIZZAS||[]).find(p=>String(p.id)===String(id));
+      const nameEl = document.getElementById('pizza-name');
+      const baseEl = document.getElementById('precio-base');
+      const totalEl = document.getElementById('precio-total');
+      const btn = document.getElementById('agregar-btn');
+      if(!pizza){ nameEl.textContent='Pizza no encontrada'; btn.disabled=true; return; }
+      nameEl.textContent = `Seleccionando tamaño: Pizza ${pizza.name}`;
+      baseEl.textContent = `Bs. ${pizza.price.toFixed(2)}`;
+
+      function calc(){
+        let total = pizza.price; let label = 'Individual';
+        const sel = document.querySelector('input[name="tam"]:checked');
+        if(sel){ total += parseFloat(sel.dataset.extra||0); label = sel.value; }
+        totalEl.textContent = `Bs. ${total.toFixed(2)}`;
+        btn.dataset.id = `${pizza.id}-t-${label.toLowerCase()}`;
+        btn.dataset.name = `Pizza ${pizza.name} (${label})`;
+        btn.dataset.price = String(total);
+      }
+      document.querySelectorAll('input[name="tam"]').forEach(el=>el.addEventListener('change', calc));
+      calc();
+    })();
+  </script>
+</body>
+</html>
